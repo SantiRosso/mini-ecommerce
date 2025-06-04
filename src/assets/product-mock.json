@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Auriculares Bluetooth",
+    "price": 4999.99
+  },
+  {
+    "id": 2,
+    "name": "Mouse Inalámbrico",
+    "price": 2599.00
+  },
+  {
+    "id": 3,
+    "name": "Teclado Mecánico RGB",
+    "price": 10499.50
+  },
+  {
+    "id": 4,
+    "name": "Monitor 24'' Full HD",
+    "price": 49999.00
+  },
+  {
+    "id": 5,
+    "name": "Notebook i5 8GB RAM",
+    "price": 245000.00
+  }
+]

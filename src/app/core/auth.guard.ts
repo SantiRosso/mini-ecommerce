@@ -1,0 +1,1 @@
+// Guard para proteger rutas como /checkout
