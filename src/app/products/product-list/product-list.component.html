@@ -1,6 +1,35 @@
-<h2>Productos</h2>
-<div *ngFor="let product of products">
-  <h3>{{ product.name }}</h3>
-  <p>Precio: {{ product.price | currency:'USD' }}</p>
-  <a [routerLink]="['/product', product.id]">Ver detalle</a>
+<div class="products-container">
+  <header class="products-header">
+    <h1 class="products-title">Nuestros Productos</h1>
+    <p class="products-subtitle">Descubre nuestra colección de productos tecnológicos</p>
+  </header>
+
+  <div class="products-grid">
+    <div class="product-card" *ngFor="let product of products">
+      <div class="card-header">
+        <div class="product-icon">📦</div>
+      </div>
+      <div class="card-body">
+        <h3 class="product-name">{{ product.name }}</h3>
+        <div class="product-price">
+          <span class="currency">$</span>
+          <span class="amount">{{ product.price | number:'1.2-2' }}</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <a class="btn-detail" [routerLink]="['/product', product.id]">
+          <span>Ver detalle</span>
+          <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="products.length === 0">
+    <div class="empty-icon">🛍️</div>
+    <h3>No hay productos disponibles</h3>
+    <p>Pronto agregaremos más productos a nuestra tienda</p>
+  </div>
 </div>

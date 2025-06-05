@@ -8,6 +8,7 @@ import { ProductService, Product } from '../product.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './product-list.component.html',
+  styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
   products: Product[] = [];
