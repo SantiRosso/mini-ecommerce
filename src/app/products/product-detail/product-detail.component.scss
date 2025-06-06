@@ -1,36 +1,34 @@
-// Variables de color minimalistas (coherentes con product-list)
-:root {
-  --black: #000000;
-  --white: #ffffff;
-  --gray-100: #f7f7f7;
-  --gray-200: #e5e5e5;
-  --gray-300: #d4d4d4;
-  --gray-400: #a3a3a3;
-  --gray-500: #737373;
-  --gray-600: #525252;
-  --gray-700: #404040;
-  --gray-800: #262626;
-  --gray-900: #171717;
+// Variables SCSS minimalistas (coherentes con product-list)
+$black: #000000;
+$white: #ffffff;
+$gray-100: #f7f7f7;
+$gray-200: #e5e5e5;
+$gray-300: #d4d4d4;
+$gray-400: #a3a3a3;
+$gray-500: #737373;
+$gray-600: #525252;
+$gray-700: #404040;
+$gray-800: #262626;
+$gray-900: #171717;
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  --transition: all 0.2s ease;
-}
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+$transition: all 0.2s ease;
 
 // Contenedor principal
 .product-detail-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 2rem 1rem;
-  background: var(--white);
+  background: $white;
   min-height: 100vh;
 }
 
 // Header con botón de regreso
 .product-header {
   margin-bottom: 3rem;
-  border-bottom: 1px solid var(--gray-200);
+  border-bottom: 1px solid $gray-200;
   padding-bottom: 1rem;
 }
 
@@ -40,16 +38,16 @@
   gap: 0.5rem;
   background: none;
   border: none;
-  color: var(--gray-600);
+  color: $gray-600;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: var(--transition);
+  transition: $transition;
   text-transform: uppercase;
   letter-spacing: 0.05em;
 
   &:hover {
-    color: var(--black);
+    color: $black;
   }
 }
 
@@ -57,7 +55,7 @@
   width: 16px;
   height: 16px;
   stroke-width: 2;
-  transition: var(--transition);
+  transition: $transition;
 }
 
 .back-button:hover .back-icon {
@@ -84,28 +82,28 @@
 }
 
 .product-image {
-  background: var(--gray-100);
-  border: 1px solid var(--gray-200);
+  background: $gray-100;
+  border: 1px solid $gray-200;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition);
+  transition: $transition;
 
   &:hover {
-    border-color: var(--black);
-    background: var(--black);
+    border-color: $black;
+    background: $black;
   }
 }
 
 .product-icon {
   font-size: 4rem;
-  color: var(--gray-700);
-  transition: var(--transition);
+  color: $gray-700;
+  transition: $transition;
 }
 
 .product-image:hover .product-icon {
-  color: var(--white);
+  color: $white;
   transform: scale(1.1);
 }
 
@@ -117,7 +115,7 @@
 .product-category {
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--gray-500);
+  color: $gray-500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   margin-bottom: 1rem;
@@ -126,7 +124,7 @@
 .product-title {
   font-size: 2.5rem;
   font-weight: 300;
-  color: var(--black);
+  color: $black;
   margin: 0 0 2rem;
   line-height: 1.2;
   letter-spacing: -0.025em;
@@ -138,8 +136,8 @@
 
 // Sección de precio
 .product-price-section {
-  border-top: 1px solid var(--gray-200);
-  border-bottom: 1px solid var(--gray-200);
+  border-top: 1px solid $gray-200;
+  border-bottom: 1px solid $gray-200;
   padding: 2rem 0;
   margin-bottom: 3rem;
 }
@@ -153,13 +151,13 @@
 .currency {
   font-size: 1.25rem;
   font-weight: 500;
-  color: var(--gray-500);
+  color: $gray-500;
 }
 
 .amount {
   font-size: 3rem;
   font-weight: 300;
-  color: var(--black);
+  color: $black;
 
   @media (max-width: 768px) {
     font-size: 2.5rem;
@@ -173,7 +171,7 @@
   h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--black);
+    color: $black;
     margin: 0 0 1rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -182,7 +180,7 @@
   p {
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--gray-600);
+    color: $gray-600;
     margin: 0;
   }
 }
@@ -194,7 +192,7 @@
   h3 {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--black);
+    color: $black;
     margin: 0 0 1rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -208,9 +206,9 @@
 
   li {
     font-size: 0.875rem;
-    color: var(--gray-600);
+    color: $gray-600;
     padding: 0.5rem 0;
-    border-bottom: 1px solid var(--gray-200);
+    border-bottom: 1px solid $gray-200;
     position: relative;
     padding-left: 1.5rem;
 
@@ -218,7 +216,7 @@
       content: '✓';
       position: absolute;
       left: 0;
-      color: var(--black);
+      color: $black;
       font-weight: bold;
     }
 
@@ -239,20 +237,20 @@
   justify-content: center;
   gap: 0.75rem;
   padding: 1rem 2rem;
-  background: var(--black);
-  color: var(--white);
-  border: 2px solid var(--black);
+  background: $black;
+  color: $white;
+  border: 2px solid $black;
   font-weight: 500;
   font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: var(--transition);
+  transition: $transition;
   width: 100%;
 
   &:hover {
-    background: var(--white);
-    color: var(--black);
+    background: $white;
+    color: $black;
   }
 
   &:active {
@@ -264,7 +262,7 @@
   width: 20px;
   height: 20px;
   stroke-width: 2;
-  transition: var(--transition);
+  transition: $transition;
 }
 
 .btn-add-cart:hover .cart-icon {
@@ -275,25 +273,25 @@
 .not-found {
   text-align: center;
   padding: 4rem 2rem;
-  color: var(--gray-500);
+  color: $gray-500;
 }
 
 .not-found-icon {
   font-size: 4rem;
   margin-bottom: 2rem;
-  color: var(--gray-300);
+  color: $gray-300;
 }
 
 .not-found h2 {
   font-size: 2rem;
   font-weight: 500;
   margin-bottom: 1rem;
-  color: var(--black);
+  color: $black;
 }
 
 .not-found p {
   font-size: 1rem;
-  color: var(--gray-500);
+  color: $gray-500;
   margin-bottom: 2rem;
 }
 
@@ -301,20 +299,20 @@
   display: inline-flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  background: var(--black);
-  color: var(--white);
-  border: 2px solid var(--black);
+  background: $black;
+  color: $white;
+  border: 2px solid $black;
   font-weight: 500;
   font-size: 0.875rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   cursor: pointer;
-  transition: var(--transition);
+  transition: $transition;
   text-decoration: none;
 
   &:hover {
-    background: var(--white);
-    color: var(--black);
+    background: $white;
+    color: $black;
   }
 }
 
