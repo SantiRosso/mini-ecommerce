@@ -20,7 +20,7 @@ $transition: all 0.2s ease;
 .products-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 1rem;
+  padding: 3rem 1rem 3rem 1rem; // Espaciado adicional superior para la navbar
   background: $gray-100;
   min-height: 100vh;
 }
