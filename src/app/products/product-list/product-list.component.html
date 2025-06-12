@@ -15,8 +15,11 @@
           <span class="currency">$</span>
           <span class="amount">{{ product.price | number:'1.2-2' }}</span>
         </div>
-      </div>
-      <div class="card-footer">
+      </div>      <div class="card-footer">
+        <button class="btn-cart" (click)="addToCart(product)">
+          <span class="cart-icon">🛒</span>
+          <span>Agregar al carrito</span>
+        </button>
         <a class="btn-detail" [routerLink]="['/product', product.id]">
           <span>Ver detalle</span>
           <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">

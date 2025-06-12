@@ -163,6 +163,46 @@ $transition: all 0.2s ease;
 // Footer de la tarjeta
 .card-footer {
   padding: 0 1.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.btn-cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+  background: #007bff;
+  color: $white;
+  border: 2px solid #007bff;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: $transition;
+  cursor: pointer;
+
+  &:hover {
+    background: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  .cart-icon {
+    font-size: 1rem;
+    transition: $transition;
+  }
+
+  &:hover .cart-icon {
+    transform: scale(1.1);
+  }
 }
 
 .btn-detail {
