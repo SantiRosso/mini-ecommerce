@@ -44,17 +44,37 @@
             <li>Envío gratuito</li>
             <li>Soporte técnico</li>
           </ul>
-        </div>
+        </div>        <div class="product-actions">
+          <div class="quantity-section">
+            <label class="quantity-label">Cantidad:</label>
+            <div class="quantity-controls">
+              <button class="quantity-btn" (click)="decreaseQuantity()" [disabled]="quantity <= 1">
+                -
+              </button>
+              <span class="quantity-value">{{ quantity }}</span>
+              <button class="quantity-btn" (click)="increaseQuantity()">
+                +
+              </button>
+            </div>
+          </div>
 
-        <div class="product-actions">
-          <button class="btn-add-cart">
-            <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="9" cy="21" r="1"></circle>
-              <circle cx="20" cy="21" r="1"></circle>
-              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-            </svg>
-            <span>Añadir al carrito</span>
-          </button>
+          <div class="action-buttons">
+            <button class="btn-add-cart" (click)="addToCart()">
+              <svg class="cart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="9" cy="21" r="1"></circle>
+                <circle cx="20" cy="21" r="1"></circle>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+              </svg>
+              <span>Añadir al carrito</span>
+            </button>
+
+            <button class="btn-go-cart" (click)="goToCart()">
+              <span>Ver carrito</span>
+              <svg class="arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </div>
