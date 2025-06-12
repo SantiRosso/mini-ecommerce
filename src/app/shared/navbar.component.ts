@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { CartService } from '../cart/cart.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
@@ -34,10 +36,13 @@ import { RouterModule } from '@angular/router';
 
         <!-- Actions -->
         <div class="navbar-actions">
-          <button class="cart-button" type="button">
+          <a routerLink="/cart" class="cart-button" type="button">
             <span class="cart-icon">🛒</span>
-            <span class="cart-count">0</span>
-          </button>
+            <span class="cart-count"
+                  [class.has-items]="(cartItemsCount$ | async)! > 0">
+              {{ cartItemsCount$ | async }}
+            </span>
+          </a>
         </div>
       </div>
     </nav>
@@ -154,9 +159,7 @@ import { RouterModule } from '@angular/router';
       display: flex;
       align-items: center;
       gap: 1rem;
-    }
-
-    .cart-button {
+    }    .cart-button {
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -167,6 +170,7 @@ import { RouterModule } from '@angular/router';
       transition: all 0.2s ease;
       font-weight: 500;
       color: #404040;
+      text-decoration: none;
     }
 
     .cart-button:hover {
@@ -186,8 +190,8 @@ import { RouterModule } from '@angular/router';
     }
 
     .cart-count {
-      background: #000000;
-      color: #ffffff;
+      background: #d4d4d4;
+      color: #666;
       font-size: 0.75rem;
       font-weight: 600;
       padding: 0.125rem 0.375rem;
@@ -198,6 +202,18 @@ import { RouterModule } from '@angular/router';
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
+    }
+
+    .cart-count.has-items {
+      background: #000000;
+      color: #ffffff;
+      animation: pulse 0.5s ease-in-out;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
     .cart-button:hover .cart-icon {
@@ -233,6 +249,17 @@ import { RouterModule } from '@angular/router';
     }
   `]
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
+  cartItemsCount$: Observable<number>;
 
+  constructor(private cartService: CartService) {
+    this.cartItemsCount$ = new Observable(observer => {
+      this.cartService.cartItems$.subscribe(items => {
+        const count = items.reduce((total, item) => total + item.quantity, 0);
+        observer.next(count);
+      });
+    });
+  }
+
+  ngOnInit(): void {}
 }
