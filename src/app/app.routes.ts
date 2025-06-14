@@ -4,11 +4,13 @@ import { ProductListComponent } from './products/product-list/product-list.compo
 import { ProductDetailComponent } from './products/product-detail/product-detail.component';
 import { CartViewComponent } from './cart/cart-view/cart-view.component';
 import { CheckoutFormComponent } from './cart/checkout-form/checkout-form.component';
+import { AuthComponent } from './auth/auth.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'products', component: ProductListComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'cart', component: CartViewComponent },
-  { path: 'checkout', component: CheckoutFormComponent }
+  { path: 'checkout', component: CheckoutFormComponent },
+  { path: 'auth', component: AuthComponent }
 ];
