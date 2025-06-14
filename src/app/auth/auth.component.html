@@ -1,0 +1,156 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>{{ isLoginMode ? 'Iniciar Sesión' : 'Crear Cuenta' }}</h1>
+      <p>{{ isLoginMode ? 'Ingresa a tu cuenta' : 'Únete a nuestra comunidad' }}</p>
+    </div>
+
+    <!-- Login Form -->
+    <form *ngIf="isLoginMode" [formGroup]="loginForm" (ngSubmit)="onLogin()" class="auth-form">
+      <div class="form-group">
+        <label for="loginEmail">Email</label>
+        <input
+          type="email"
+          id="loginEmail"
+          formControlName="email"
+          placeholder="tu@email.com"
+          [class.error]="isFieldInvalid(loginForm, 'email')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid(loginForm, 'email')">
+          {{ getErrorMessage(loginForm, 'email') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword">Contraseña</label>
+        <input
+          type="password"
+          id="loginPassword"
+          formControlName="password"
+          placeholder="••••••••"
+          [class.error]="isFieldInvalid(loginForm, 'password')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid(loginForm, 'password')">
+          {{ getErrorMessage(loginForm, 'password') }}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn-primary"
+          [disabled]="isLoading"
+        >
+          <span *ngIf="isLoading" class="loading-spinner"></span>
+          {{ isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión' }}
+        </button>
+      </div>
+
+      <div class="forgot-password">
+        <a href="#" class="link">¿Olvidaste tu contraseña?</a>
+      </div>
+    </form>
+
+    <!-- Register Form -->
+    <form *ngIf="!isLoginMode" [formGroup]="registerForm" (ngSubmit)="onRegister()" class="auth-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">Nombre</label>
+          <input
+            type="text"
+            id="firstName"
+            formControlName="firstName"
+            placeholder="Juan"
+            [class.error]="isFieldInvalid(registerForm, 'firstName')"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid(registerForm, 'firstName')">
+            {{ getErrorMessage(registerForm, 'firstName') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">Apellido</label>
+          <input
+            type="text"
+            id="lastName"
+            formControlName="lastName"
+            placeholder="Pérez"
+            [class.error]="isFieldInvalid(registerForm, 'lastName')"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid(registerForm, 'lastName')">
+            {{ getErrorMessage(registerForm, 'lastName') }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="registerEmail">Email</label>
+        <input
+          type="email"
+          id="registerEmail"
+          formControlName="email"
+          placeholder="tu@email.com"
+          [class.error]="isFieldInvalid(registerForm, 'email')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid(registerForm, 'email')">
+          {{ getErrorMessage(registerForm, 'email') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="registerPassword">Contraseña</label>
+        <input
+          type="password"
+          id="registerPassword"
+          formControlName="password"
+          placeholder="••••••••"
+          [class.error]="isFieldInvalid(registerForm, 'password')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid(registerForm, 'password')">
+          {{ getErrorMessage(registerForm, 'password') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmar Contraseña</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          placeholder="••••••••"
+          [class.error]="isFieldInvalid(registerForm, 'confirmPassword')"
+        >
+        <div class="error-message" *ngIf="isFieldInvalid(registerForm, 'confirmPassword')">
+          {{ getErrorMessage(registerForm, 'confirmPassword') }}
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button 
+          type="submit" 
+          class="btn-primary"
+          [disabled]="isLoading"
+        >
+          <span *ngIf="isLoading" class="loading-spinner"></span>
+          {{ isLoading ? 'Creando cuenta...' : 'Crear Cuenta' }}
+        </button>
+      </div>
+    </form>
+
+    <!-- Switch Mode -->
+    <div class="auth-switch">
+      <p *ngIf="isLoginMode">
+        ¿No tienes una cuenta? 
+        <button type="button" class="link-button" (click)="switchMode()">
+          Regístrate aquí
+        </button>
+      </p>
+      <p *ngIf="!isLoginMode">
+        ¿Ya tienes una cuenta? 
+        <button type="button" class="link-button" (click)="switchMode()">
+          Inicia sesión aquí
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
