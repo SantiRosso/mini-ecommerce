@@ -17,9 +17,7 @@ import { Observable } from 'rxjs';
             <span class="brand-icon">🛍️</span>
             <span class="brand-text">Mini Store</span>
           </a>
-        </div>
-
-        <!-- Navigation Links -->
+        </div>        <!-- Navigation Links -->
         <div class="navbar-nav">
           <a routerLink="/"
              routerLinkActive="active"
@@ -31,6 +29,11 @@ import { Observable } from 'rxjs';
              routerLinkActive="active"
              class="nav-link">
             Productos
+          </a>
+          <a routerLink="/auth"
+             routerLinkActive="active"
+             class="nav-link">
+            Iniciar Sesión
           </a>
         </div>
 
