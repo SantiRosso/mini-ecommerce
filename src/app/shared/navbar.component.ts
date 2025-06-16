@@ -30,21 +30,26 @@ import { Observable } from 'rxjs';
              class="nav-link">
             Productos
           </a>
-          <a routerLink="/auth"
-             routerLinkActive="active"
-             class="nav-link">
-            Iniciar Sesión
-          </a>
-        </div>
-
-        <!-- Actions -->
+        </div>        <!-- Actions -->
         <div class="navbar-actions">
-          <a routerLink="/cart" class="cart-button" type="button">
+          <!-- Cart Button -->
+          <a routerLink="/cart" class="cart-button" title="Ver carrito">
             <span class="cart-icon">🛒</span>
             <span class="cart-count"
                   [class.has-items]="(cartItemsCount$ | async)! > 0">
               {{ cartItemsCount$ | async }}
             </span>
+          </a>
+
+          <!-- Separator -->
+          <div class="actions-separator"></div>          <!-- Profile Button -->
+          <a routerLink="/auth" class="profile-button" title="Iniciar Sesión / Registro">
+            <div class="profile-avatar">
+              <svg class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+            </div>
           </a>
         </div>
       </div>
@@ -227,7 +232,49 @@ import { Observable } from 'rxjs';
       background: #404040;
     }
 
-    @media (max-width: 768px) {
+    .actions-separator {
+      width: 1px;
+      height: 30px;
+      background: #e0e0e0;
+      margin: 0 0.75rem;
+    }
+
+    .profile-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-left: 0.5rem;
+    }
+
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border: 2px solid white;
+    }
+
+    .profile-button:hover .profile-avatar {
+      transform: translateY(-1px) scale(1.05);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }    .profile-icon {
+      color: white;
+      width: 18px;
+      height: 18px;
+      stroke-width: 2;
+      transition: all 0.2s ease;
+    }
+
+    .profile-button:hover .profile-icon {
+      transform: scale(1.1);
+    }@media (max-width: 768px) {
       .navbar-container {
         padding: 0 0.75rem;
         height: 60px;
@@ -248,6 +295,27 @@ import { Observable } from 'rxjs';
       .nav-link {
         padding: 0.5rem;
         font-size: 0.8rem;
+      }
+
+      .navbar-actions {
+        gap: 0.75rem;
+      }
+
+      .profile-avatar {
+        width: 36px;
+        height: 36px;
+      }      .profile-icon {
+        width: 16px;
+        height: 16px;
+      }
+
+      .cart-button {
+        padding: 0.375rem 0.75rem;
+      }
+
+      .actions-separator {
+        height: 25px;
+        margin: 0 0.5rem;
       }
     }
   `]

@@ -37,12 +37,12 @@ export class AuthComponent {
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password');
     const confirmPassword = form.get('confirmPassword');
-    
+
     if (password && confirmPassword && password.value !== confirmPassword.value) {
       confirmPassword.setErrors({ passwordMismatch: true });
       return { passwordMismatch: true };
     }
-    
+
     return null;
   }
 
@@ -57,15 +57,15 @@ export class AuthComponent {
     if (this.loginForm.valid) {
       this.isLoading = true;
       const formData = this.loginForm.value;
-      
+
       console.log('Login data:', formData);
-      
+
       // Simular llamada al servicio
       setTimeout(() => {
         this.isLoading = false;
         // Aquí harías la llamada real al servicio
         // this.authService.login(formData).subscribe(...)
-        
+
         // Por ahora, simplemente navegar al home
         this.router.navigate(['/products']);
       }, 1500);
@@ -78,15 +78,15 @@ export class AuthComponent {
     if (this.registerForm.valid) {
       this.isLoading = true;
       const formData = this.registerForm.value;
-      
+
       console.log('Register data:', formData);
-      
+
       // Simular llamada al servicio
       setTimeout(() => {
         this.isLoading = false;
         // Aquí harías la llamada real al servicio
         // this.authService.register(formData).subscribe(...)
-        
+
         // Por ahora, cambiar a modo login después del registro
         this.isLoginMode = true;
         this.registerForm.reset();
@@ -105,24 +105,24 @@ export class AuthComponent {
 
   getErrorMessage(form: FormGroup, fieldName: string): string {
     const field = form.get(fieldName);
-    
+
     if (field?.hasError('required')) {
       return `${this.getFieldDisplayName(fieldName)} es requerido`;
     }
-    
+
     if (field?.hasError('email')) {
       return 'Ingresa un email válido';
     }
-    
+
     if (field?.hasError('minlength')) {
       const minLength = field.errors?.['minlength'].requiredLength;
       return `Debe tener al menos ${minLength} caracteres`;
     }
-    
+
     if (field?.hasError('passwordMismatch')) {
       return 'Las contraseñas no coinciden';
     }
-    
+
     return '';
   }
 
@@ -134,7 +134,7 @@ export class AuthComponent {
       'password': 'Contraseña',
       'confirmPassword': 'Confirmar contraseña'
     };
-    
+
     return displayNames[fieldName] || fieldName;
   }
 

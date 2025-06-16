@@ -36,8 +36,8 @@
       </div>
 
       <div class="form-actions">
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           class="btn-primary"
           [disabled]="isLoading"
         >
@@ -126,8 +126,8 @@
       </div>
 
       <div class="form-actions">
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           class="btn-primary"
           [disabled]="isLoading"
         >
@@ -140,13 +140,13 @@
     <!-- Switch Mode -->
     <div class="auth-switch">
       <p *ngIf="isLoginMode">
-        ¿No tienes una cuenta? 
+        ¿No tienes una cuenta?
         <button type="button" class="link-button" (click)="switchMode()">
           Regístrate aquí
         </button>
       </p>
       <p *ngIf="!isLoginMode">
-        ¿Ya tienes una cuenta? 
+        ¿Ya tienes una cuenta?
         <button type="button" class="link-button" (click)="switchMode()">
           Inicia sesión aquí
         </button>
