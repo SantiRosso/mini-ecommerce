@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../cart/cart.service';
+import { AuthService, User } from '../core/auth.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -43,14 +44,45 @@ import { Observable } from 'rxjs';
 
           <!-- Separator -->
           <div class="actions-separator"></div>          <!-- Profile Button -->
-          <a routerLink="/auth" class="profile-button" title="Iniciar Sesión / Registro">
-            <div class="profile-avatar">
-              <svg class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                <circle cx="12" cy="7" r="4"></circle>
-              </svg>
+          <div class="profile-dropdown" *ngIf="(authService.isAuthenticated$ | async); else loginButton">
+            <button class="profile-button" (click)="toggleDropdown()" [class.active]="showDropdown">
+              <div class="profile-avatar">
+                <svg class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+            </button>
+            
+            <div class="dropdown-menu" [class.show]="showDropdown">
+              <div class="dropdown-header" *ngIf="(authService.currentUser$ | async) as user">
+                <div class="user-info">
+                  <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+                  <span class="user-email">{{ user.email }}</span>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <button class="dropdown-item" (click)="logout()">
+                <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16,17 21,12 16,7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Cerrar Sesión
+              </button>
             </div>
-          </a>
+          </div>
+
+          <ng-template #loginButton>
+            <a routerLink="/auth" class="profile-button" title="Iniciar Sesión / Registro">
+              <div class="profile-avatar">
+                <svg class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+            </a>
+          </ng-template>
         </div>
       </div>
     </nav>
@@ -274,7 +306,109 @@ import { Observable } from 'rxjs';
 
     .profile-button:hover .profile-icon {
       transform: scale(1.1);
-    }@media (max-width: 768px) {
+    }
+
+    .profile-dropdown {
+      position: relative;
+    }
+
+    .profile-button.active .profile-avatar {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 15px);
+      right: 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+      min-width: 250px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.2s ease;
+      z-index: 1000;
+      border: 1px solid #e2e8f0;
+    }
+
+    .dropdown-menu.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-menu::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      right: 20px;
+      width: 12px;
+      height: 12px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-bottom: none;
+      border-right: none;
+      transform: rotate(45deg);
+    }
+
+    .dropdown-header {
+      padding: 16px;
+    }
+
+    .user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .user-name {
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 4px;
+    }
+
+    .user-email {
+      font-size: 12px;
+      color: #718096;
+    }
+
+    .dropdown-divider {
+      height: 1px;
+      background: #e2e8f0;
+      margin: 0 8px;
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px 16px;
+      background: none;
+      border: none;
+      font-size: 14px;
+      color: #4a5568;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .dropdown-item:hover {
+      background: #f7fafc;
+      color: #2d3748;
+    }
+
+    .dropdown-item:last-child {
+      border-radius: 0 0 8px 8px;
+    }
+
+    .dropdown-icon {
+      width: 16px;
+      height: 16px;
+      stroke-width: 2;
+    }
+
+    @media (max-width: 768px) {
       .navbar-container {
         padding: 0 0.75rem;
         height: 60px;
@@ -322,8 +456,12 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
   cartItemsCount$: Observable<number>;
+  showDropdown = false;
 
-  constructor(private cartService: CartService) {
+  constructor(
+    private cartService: CartService,
+    public authService: AuthService
+  ) {
     this.cartItemsCount$ = new Observable(observer => {
       this.cartService.cartItems$.subscribe(items => {
         const count = items.reduce((total, item) => total + item.quantity, 0);
@@ -333,4 +471,13 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  toggleDropdown(): void {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  logout(): void {
+    this.showDropdown = false;
+    this.authService.logout().subscribe();
+  }
 }
