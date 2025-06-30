@@ -168,32 +168,46 @@
   }
 }
 
-.auth-switch {
-  text-align: center;
-  margin-top: 30px;
-  padding-top: 20px;
-  border-top: 1px solid #e2e8f0;
+.messages {
+  margin-bottom: 20px;
 
-  p {
-    color: #718096;
-    margin: 0;
+  .error-alert, .success-alert {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 6px;
     font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    animation: slideDown 0.3s ease-out;
   }
 
-  .link-button {
-    background: none;
-    border: none;
-    color: #667eea;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: color 0.3s ease;
+  .error-alert {
+    background: #fed7d7;
+    color: #c53030;
+    border: 1px solid #feb2b2;
+  }
 
-    &:hover {
-      color: #5a67d8;
-      text-decoration: underline;
-    }
+  .success-alert {
+    background: #c6f6d5;
+    color: #276749;
+    border: 1px solid #9ae6b4;
+  }
+
+  .alert-icon {
+    font-size: 16px;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

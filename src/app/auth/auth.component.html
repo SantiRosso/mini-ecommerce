@@ -1,8 +1,19 @@
 <div class="auth-container">
-  <div class="auth-card">
-    <div class="auth-header">
+  <div class="auth-card">    <div class="auth-header">
       <h1>{{ isLoginMode ? 'Iniciar Sesión' : 'Crear Cuenta' }}</h1>
       <p>{{ isLoginMode ? 'Ingresa a tu cuenta' : 'Únete a nuestra comunidad' }}</p>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages" *ngIf="errorMessage || successMessage">
+      <div class="error-alert" *ngIf="errorMessage">
+        <span class="alert-icon">⚠️</span>
+        <span>{{ errorMessage }}</span>
+      </div>
+      <div class="success-alert" *ngIf="successMessage">
+        <span class="alert-icon">✅</span>
+        <span>{{ successMessage }}</span>
+      </div>
     </div>
 
     <!-- Login Form -->
