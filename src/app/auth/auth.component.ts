@@ -1,7 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { AuthService, LoginRequest, RegisterRequest } from '../core/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -10,15 +13,20 @@ import { Router } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   registerForm: FormGroup;
   isLoginMode = true;
   isLoading = false;
+  errorMessage = '';
+  successMessage = '';
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,9 +53,32 @@ export class AuthComponent {
 
     return null;
   }
+  ngOnInit(): void {
+    // Verificar si el usuario ya está autenticado
+    this.authService.isAuthenticated$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isAuthenticated => {
+        if (isAuthenticated) {
+          this.redirectAfterAuth();
+        }
+      });
+
+    // Suscribirse al estado de loading
+    this.authService.isLoading$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(loading => {
+        this.isLoading = loading;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   switchMode() {
     this.isLoginMode = !this.isLoginMode;
+    this.clearMessages();
     // Reset forms when switching modes
     this.loginForm.reset();
     this.registerForm.reset();
@@ -55,44 +86,58 @@ export class AuthComponent {
 
   onLogin() {
     if (this.loginForm.valid) {
-      this.isLoading = true;
-      const formData = this.loginForm.value;
+      this.clearMessages();
+      const credentials: LoginRequest = this.loginForm.value;
 
-      console.log('Login data:', formData);
-
-      // Simular llamada al servicio
-      setTimeout(() => {
-        this.isLoading = false;
-        // Aquí harías la llamada real al servicio
-        // this.authService.login(formData).subscribe(...)
-
-        // Por ahora, simplemente navegar al home
-        this.router.navigate(['/products']);
-      }, 1500);
+      this.authService.login(credentials)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.successMessage = `¡Bienvenido ${response.user.firstName}!`;
+            setTimeout(() => this.redirectAfterAuth(), 1000);
+          },
+          error: (error) => {
+            this.errorMessage = error.message || 'Error al iniciar sesión';
+          }
+        });
     } else {
       this.markFormGroupTouched(this.loginForm);
     }
   }
-
   onRegister() {
     if (this.registerForm.valid) {
-      this.isLoading = true;
-      const formData = this.registerForm.value;
+      this.clearMessages();
+      const userData: RegisterRequest = this.registerForm.value;
 
-      console.log('Register data:', formData);
-
-      // Simular llamada al servicio
-      setTimeout(() => {
-        this.isLoading = false;
-        // Aquí harías la llamada real al servicio
-        // this.authService.register(formData).subscribe(...)
-
-        // Por ahora, cambiar a modo login después del registro
-        this.isLoginMode = true;
-        this.registerForm.reset();
-      }, 1500);
+      this.authService.register(userData)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (response) => {
+            this.successMessage = `¡Cuenta creada exitosamente! Bienvenido ${response.user.firstName}!`;
+            setTimeout(() => this.redirectAfterAuth(), 1000);
+          },
+          error: (error) => {
+            this.errorMessage = error.message || 'Error al crear la cuenta';
+          }
+        });
     } else {
       this.markFormGroupTouched(this.registerForm);
+    }
+  }
+
+  private clearMessages(): void {
+    this.errorMessage = '';
+    this.successMessage = '';
+  }
+
+  private redirectAfterAuth(): void {
+    // Verificar si hay una URL de retorno guardada
+    const returnUrl = localStorage.getItem('returnUrl');
+    if (returnUrl) {
+      localStorage.removeItem('returnUrl');
+      this.router.navigate([returnUrl]);
+    } else {
+      this.router.navigate(['/products']);
     }
   }
 
