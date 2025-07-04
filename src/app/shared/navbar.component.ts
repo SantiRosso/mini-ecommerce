@@ -53,7 +53,7 @@ import { Observable } from 'rxjs';
                 </svg>
               </div>
             </button>
-            
+
             <div class="dropdown-menu" [class.show]="showDropdown">
               <div class="dropdown-header" *ngIf="(authService.currentUser$ | async) as user">
                 <div class="user-info">

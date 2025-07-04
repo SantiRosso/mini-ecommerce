@@ -12,13 +12,13 @@ export const routes: Routes = [
   { path: 'products', component: ProductListComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'cart', component: CartViewComponent },
-  { 
-    path: 'checkout', 
-    component: CheckoutFormComponent, 
-    canActivate: [AuthGuard] 
+  {
+    path: 'checkout',
+    component: CheckoutFormComponent,
+    canActivate: [AuthGuard]
   },
-  { 
-    path: 'auth', 
+  {
+    path: 'auth',
     component: AuthComponent,
     canActivate: [GuestGuard]
   }
