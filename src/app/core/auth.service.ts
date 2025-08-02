@@ -7,9 +7,11 @@ import { Router } from '@angular/router';
 // Interfaces para tipado
 export interface User {
   id: number;
+  email: string;
   firstName: string;
   lastName: string;
-  email: string;
+  createdAt: string;
+  updatedAt: string;
   role?: string;
   avatar?: string;
 }
@@ -24,12 +26,13 @@ export interface RegisterRequest {
   lastName: string;
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
 export interface AuthResponse {
   user: User;
-  token: string;
-  refreshToken?: string;
+  accessToken: string;
+  refreshToken: string;
   expiresIn: number;
 }
 
@@ -43,7 +46,7 @@ export interface ErrorResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:3000/api/auth'; // Cambiar por tu URL del backend
+  private readonly API_URL = 'http://localhost:3000/auth';
   private readonly TOKEN_KEY = 'auth_token';
   private readonly REFRESH_TOKEN_KEY = 'refresh_token';
   private readonly USER_KEY = 'current_user';
@@ -92,7 +95,8 @@ export class AuthService {
   register(userData: RegisterRequest): Observable<AuthResponse> {
     this.isLoadingSubject.next(true);
 
-    return this.http.post<AuthResponse>(`${this.API_URL}/register`, userData)
+    const { confirmPassword, ...dataToSend } = userData;
+    return this.http.post<AuthResponse>(`${this.API_URL}/register`, dataToSend)
       .pipe(
         tap(response => {
           this.handleAuthSuccess(response);
@@ -141,7 +145,7 @@ export class AuthService {
       refreshToken
     }).pipe(
       tap(response => {
-        this.setToken(response.token);
+        this.setToken(response.accessToken);
         if (response.refreshToken) {
           this.setRefreshToken(response.refreshToken);
         }
@@ -248,7 +252,7 @@ export class AuthService {
 
   // Métodos privados
   private handleAuthSuccess(response: AuthResponse): void {
-    this.setToken(response.token);
+    this.setToken(response.accessToken);
     if (response.refreshToken) {
       this.setRefreshToken(response.refreshToken);
     }
