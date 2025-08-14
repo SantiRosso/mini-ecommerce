@@ -8,6 +8,10 @@
     <div class="product-card" *ngFor="let product of products">
       <div class="card-header">
         <div class="product-icon">📦</div>
+        <app-favorite-button
+          [productId]="product.id"
+          class="favorite-btn-header">
+        </app-favorite-button>
       </div>
       <div class="card-body">
         <h3 class="product-name">{{ product.name }}</h3>
@@ -15,7 +19,8 @@
           <span class="currency">$</span>
           <span class="amount">{{ product.price | number:'1.2-2' }}</span>
         </div>
-      </div>      <div class="card-footer">
+      </div>
+      <div class="card-footer">
         <button class="btn-cart" (click)="addToCart(product)">
           <span class="cart-icon">🛒</span>
           <span>Agregar al carrito</span>

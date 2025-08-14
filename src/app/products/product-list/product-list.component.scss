@@ -107,6 +107,16 @@ $transition: all 0.2s ease;
   text-align: center;
   border-bottom: 1px solid $gray-200;
   transition: $transition;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.favorite-btn-header {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 }
 
 .product-card:hover .card-header {
