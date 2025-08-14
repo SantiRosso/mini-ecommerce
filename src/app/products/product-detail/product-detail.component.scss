@@ -112,13 +112,24 @@ $transition: all 0.2s ease;
   padding: 1rem 0;
 }
 
+.product-header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
 .product-category {
   font-size: 0.75rem;
   font-weight: 500;
   color: $gray-500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-bottom: 1rem;
+  margin: 0;
+}
+
+.favorite-btn-detail {
+  margin-left: auto;
 }
 
 .product-title {

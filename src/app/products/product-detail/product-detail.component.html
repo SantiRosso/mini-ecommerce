@@ -21,7 +21,14 @@
 
       <!-- Información del producto -->
       <div class="product-info-section">
-        <div class="product-category">Tecnología</div>
+        <div class="product-header-info">
+          <div class="product-category">Tecnología</div>
+          <app-favorite-button
+            [productId]="product.id"
+            [showText]="true"
+            class="favorite-btn-detail">
+          </app-favorite-button>
+        </div>
         <h1 class="product-title">{{ product.name }}</h1>
 
         <div class="product-price-section">

@@ -4,13 +4,14 @@ import { ProductService, Product } from '../product.service';
 import { CartService } from '../../cart/cart.service';
 import { CommonModule } from '@angular/common';
 import { Location } from '@angular/common';
+import { FavoriteButtonComponent } from '../../favorites/favorite-button/favorite-button.component';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
-  imports: [CommonModule]
+  imports: [CommonModule, FavoriteButtonComponent]
 })
 export class ProductDetailComponent implements OnInit {
   product?: Product;
