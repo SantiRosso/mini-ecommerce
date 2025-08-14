@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CartService } from '../cart/cart.service';
 import { AuthService, User } from '../core/auth.service';
+import { FavoriteService } from '../favorites/favorite.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -30,6 +31,17 @@ import { Observable } from 'rxjs';
              routerLinkActive="active"
              class="nav-link">
             Productos
+          </a>
+          <a routerLink="/favorites"
+             routerLinkActive="active"
+             class="nav-link"
+             *ngIf="authService.isAuthenticated$ | async">
+            <span class="nav-icon">❤️</span>
+            <span class="nav-text">Favoritos</span>
+            <span class="nav-count"
+                  [class.has-items]="(favoriteCount$ | async)! > 0">
+              {{ favoriteCount$ | async }}
+            </span>
           </a>
         </div>        <!-- Actions -->
         <div class="navbar-actions">
@@ -193,6 +205,35 @@ import { Observable } from 'rxjs';
     .nav-link.active {
       color: #000000;
       font-weight: 600;
+    }
+
+    .nav-icon {
+      font-size: 1rem;
+    }
+
+    .nav-text {
+      display: inline;
+    }
+
+    .nav-count {
+      background: #d4d4d4;
+      color: #666;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.125rem 0.375rem;
+      border-radius: 50%;
+      min-width: 1rem;
+      height: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .nav-count.has-items {
+      background: #e91e63;
+      color: #ffffff;
     }
 
     .navbar-actions {
@@ -431,6 +472,17 @@ import { Observable } from 'rxjs';
         font-size: 0.8rem;
       }
 
+      .nav-text {
+        display: none;
+      }
+
+      .nav-count {
+        margin-left: 0.25rem;
+        min-width: 0.875rem;
+        height: 0.875rem;
+        font-size: 0.65rem;
+      }
+
       .navbar-actions {
         gap: 0.75rem;
       }
@@ -456,16 +508,24 @@ import { Observable } from 'rxjs';
 })
 export class NavbarComponent implements OnInit {
   cartItemsCount$: Observable<number>;
+  favoriteCount$: Observable<number>;
   showDropdown = false;
 
   constructor(
     private cartService: CartService,
-    public authService: AuthService
+    public authService: AuthService,
+    private favoriteService: FavoriteService
   ) {
     this.cartItemsCount$ = new Observable(observer => {
       this.cartService.cartItems$.subscribe(items => {
         const count = items.reduce((total, item) => total + item.quantity, 0);
         observer.next(count);
+      });
+    });
+
+    this.favoriteCount$ = new Observable(observer => {
+      this.favoriteService.favorites$.subscribe(favorites => {
+        observer.next(favorites.length);
       });
     });
   }
