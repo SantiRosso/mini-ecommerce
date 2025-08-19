@@ -1,7 +1,19 @@
 <div class="products-container">
   <header class="products-header">
-    <h1 class="products-title">Nuestros Productos</h1>
-    <p class="products-subtitle">Descubre nuestra colección de productos tecnológicos</p>
+    <div class="header-content">
+      <div class="header-text">
+        <h1 class="products-title">Nuestros Productos</h1>
+        <p class="products-subtitle">Descubre nuestra colección de productos tecnológicos</p>
+      </div>
+      <div class="header-actions" *ngIf="authService.isAuthenticated()">
+        <button class="btn-create-product" (click)="goToCreateProduct()">
+          <svg class="plus-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          <span>Crear Producto</span>
+        </button>
+      </div>
+    </div>
   </header>
 
   <div class="products-grid">

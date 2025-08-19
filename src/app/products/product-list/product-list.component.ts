@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ProductService, Product } from '../product.service';
 import { CartService } from '../../cart/cart.service';
+import { AuthService } from '../../core/auth.service';
 import { FavoriteButtonComponent } from '../../favorites/favorite-button/favorite-button.component';
 
 @Component({
@@ -17,12 +18,18 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private router: Router,
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    console.log('Fetching products from mock JSON file');
+    console.log('Fetching products from backend API');
     this.productService.getProducts().subscribe(data => this.products = data);
+  }
+
+  goToCreateProduct(): void {
+    this.router.navigate(['/products/create']);
   }
 
   addToCart(product: Product): void {
