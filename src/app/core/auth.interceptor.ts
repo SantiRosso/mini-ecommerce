@@ -12,13 +12,20 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('AuthInterceptor: Processing request to', request.url);
+    
     // Agregar token de autorización si existe
-    if (this.authService.getToken()) {
-      request = this.addTokenHeader(request, this.authService.getToken()!);
+    const token = this.authService.getToken();
+    if (token) {
+      console.log('AuthInterceptor: Adding token to request');
+      request = this.addTokenHeader(request, token);
+    } else {
+      console.log('AuthInterceptor: No token available');
     }
 
     return next.handle(request).pipe(
       catchError(error => {
+        console.log('AuthInterceptor: Request error', error);
         if (error instanceof HttpErrorResponse && error.status === 401) {
           return this.handle401Error(request, next);
         }

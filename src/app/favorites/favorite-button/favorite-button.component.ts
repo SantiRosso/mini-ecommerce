@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FavoriteService } from '../favorite.service';
+import { AuthService } from '../../core/auth.service';
 
 @Component({
   selector: 'app-favorite-button',
@@ -22,6 +23,11 @@ import { FavoriteService } from '../favorite.service';
         {{ isFavorite ? 'En favoritos' : 'Agregar a favoritos' }}
       </span>
     </button>
+    
+    <!-- Debug info -->
+    <div style="font-size: 10px; color: gray;" *ngIf="false">
+      Auth: {{authService.isAuthenticated()}} | Loading: {{isLoading}} | Product: {{productId}}
+    </div>
   `,
   styles: [`
     .favorite-btn {
@@ -89,7 +95,10 @@ export class FavoriteButtonComponent implements OnInit {
   isFavorite: boolean = false;
   isLoading: boolean = false;
 
-  constructor(private favoriteService: FavoriteService) {}
+  constructor(
+    private favoriteService: FavoriteService,
+    public authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.checkFavoriteStatus();
@@ -105,19 +114,49 @@ export class FavoriteButtonComponent implements OnInit {
   }
 
   toggleFavorite(): void {
-    if (this.isLoading) return;
+    console.log('🔥 BUTTON CLICKED - toggleFavorite() method called');
+    
+    if (this.isLoading) {
+      console.log('⚠️ Already loading, returning...');
+      return;
+    }
 
+    console.log('=== TOGGLE FAVORITE DEBUG ===');
+    console.log('Product ID:', this.productId);
+    console.log('Auth Service present:', !!this.authService);
+    console.log('Is authenticated (method):', this.authService.isAuthenticated());
+    console.log('Current user:', this.authService.getCurrentUser());
+    console.log('Token exists:', !!this.authService.getToken());
+    
+    // Verificar si el usuario está autenticado
+    if (!this.authService.isAuthenticated()) {
+      console.error('❌ User not authenticated - cannot toggle favorite');
+      alert('Por favor, inicia sesión para agregar productos a favoritos');
+      return;
+    }
+
+    console.log('✅ User is authenticated, proceeding with toggle...');
     this.isLoading = true;
 
     this.favoriteService.toggleFavorite(this.productId).subscribe({
       next: (response) => {
+        console.log('✅ Toggle favorite response:', response);
         this.isFavorite = response.isFavorite;
         this.favoriteChanged.emit(this.isFavorite);
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error toggling favorite:', error);
+        console.error('❌ Error toggling favorite:', error);
+        console.error('Error status:', error.status);
+        console.error('Error message:', error.message);
         this.isLoading = false;
+        
+        // Mostrar mensaje de error específico
+        if (error.status === 401) {
+          alert('No estás autenticado. Por favor, inicia sesión.');
+        } else {
+          alert('Error al agregar/quitar de favoritos. Inténtalo de nuevo.');
+        }
       }
     });
   }

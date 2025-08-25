@@ -86,6 +86,10 @@ import { Observable } from 'rxjs';
           </div>
 
           <ng-template #loginButton>
+            <!-- Botón de debug temporal -->
+            <button class="debug-login-btn" (click)="debugLogin()" title="Debug Login">
+              🔧 Debug Login
+            </button>
             <a routerLink="/auth" class="profile-button" title="Iniciar Sesión / Registro">
               <div class="profile-avatar">
                 <svg class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -449,6 +453,21 @@ import { Observable } from 'rxjs';
       stroke-width: 2;
     }
 
+    .debug-login-btn {
+      background: #10b981;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.75rem;
+      margin-right: 0.5rem;
+    }
+
+    .debug-login-btn:hover {
+      background: #059669;
+    }
+
     @media (max-width: 768px) {
       .navbar-container {
         padding: 0 0.75rem;
@@ -539,5 +558,9 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     this.showDropdown = false;
     this.authService.logout().subscribe();
+  }
+
+  debugLogin(): void {
+    this.authService.debugLogin();
   }
 }

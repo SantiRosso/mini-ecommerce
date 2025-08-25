@@ -35,14 +35,26 @@ export interface FavoriteToggleResponse {
   providedIn: 'root'
 })
 export class FavoriteService {
-  private readonly API_URL = 'http://localhost:3000/favorites';
+  private readonly API_URL = 'http://localhost:3000/favorite';
 
   // Subject para manejar el estado de favoritos
   private favoritesSubject = new BehaviorSubject<Favorite[]>([]);
   public favorites$ = this.favoritesSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    this.loadFavorites();
+    console.log('FavoriteService initialized');
+    this.loadFavorites().subscribe({
+      next: (response) => {
+        console.log('Initial favorites loaded:', response);
+      },
+      error: (error) => {
+        console.error('Error loading initial favorites:', error);
+        // Si hay error de autenticación, el usuario probablemente no está logueado
+        if (error.status === 401) {
+          console.warn('User not authenticated - cannot load favorites');
+        }
+      }
+    });
   }
 
   /**
@@ -94,11 +106,16 @@ export class FavoriteService {
    * Alternar estado de favorito
    */
   toggleFavorite(productId: number): Observable<FavoriteToggleResponse> {
+    console.log('Making toggle request to:', `${this.API_URL}/${productId}/toggle`);
     return this.http.post<FavoriteToggleResponse>(`${this.API_URL}/${productId}/toggle`, {})
       .pipe(
-        tap(() => {
+        tap(response => {
+          console.log('Toggle favorite API response:', response);
           // Recargar favoritos después de alternar
-          this.loadFavorites().subscribe();
+          this.loadFavorites().subscribe({
+            next: (loadResponse) => console.log('Favorites reloaded after toggle:', loadResponse),
+            error: (error) => console.error('Error reloading favorites after toggle:', error)
+          });
         })
       );
   }
