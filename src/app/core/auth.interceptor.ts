@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     console.log('AuthInterceptor: Processing request to', request.url);
-    
+
     // Agregar token de autorización si existe
     const token = this.authService.getToken();
     if (token) {

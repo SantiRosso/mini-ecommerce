@@ -11,9 +11,9 @@ import { inject } from '@angular/core';
 // Interceptor funcional
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
-  
+
   console.log('AuthInterceptor: Processing request to', req.url);
-  
+
   const token = authService.getToken();
   if (token) {
     console.log('AuthInterceptor: Adding token to request');

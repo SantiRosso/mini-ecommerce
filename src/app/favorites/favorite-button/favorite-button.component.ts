@@ -23,7 +23,7 @@ import { AuthService } from '../../core/auth.service';
         {{ isFavorite ? 'En favoritos' : 'Agregar a favoritos' }}
       </span>
     </button>
-    
+
     <!-- Debug info -->
     <div style="font-size: 10px; color: gray;" *ngIf="false">
       Auth: {{authService.isAuthenticated()}} | Loading: {{isLoading}} | Product: {{productId}}
@@ -115,7 +115,7 @@ export class FavoriteButtonComponent implements OnInit {
 
   toggleFavorite(): void {
     console.log('🔥 BUTTON CLICKED - toggleFavorite() method called');
-    
+
     if (this.isLoading) {
       console.log('⚠️ Already loading, returning...');
       return;
@@ -127,7 +127,7 @@ export class FavoriteButtonComponent implements OnInit {
     console.log('Is authenticated (method):', this.authService.isAuthenticated());
     console.log('Current user:', this.authService.getCurrentUser());
     console.log('Token exists:', !!this.authService.getToken());
-    
+
     // Verificar si el usuario está autenticado
     if (!this.authService.isAuthenticated()) {
       console.error('❌ User not authenticated - cannot toggle favorite');
@@ -150,7 +150,7 @@ export class FavoriteButtonComponent implements OnInit {
         console.error('Error status:', error.status);
         console.error('Error message:', error.message);
         this.isLoading = false;
-        
+
         // Mostrar mensaje de error específico
         if (error.status === 401) {
           alert('No estás autenticado. Por favor, inicia sesión.');
