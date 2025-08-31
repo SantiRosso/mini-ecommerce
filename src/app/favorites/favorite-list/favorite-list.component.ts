@@ -35,10 +35,7 @@ interface FavoriteWithProduct extends Favorite {
         <div class="favorites-grid" *ngIf="favorites.length > 0">
           <div class="favorite-card" *ngFor="let favorite of favorites">
             <div class="product-image">
-              <img
-                [src]="getProductImage(favorite.product)"
-                [alt]="favorite.product?.name || 'Producto'"
-                (error)="onImageError($event)">
+              <div class="product-icon">📦</div>
             </div>
 
             <div class="product-info">
@@ -156,12 +153,14 @@ interface FavoriteWithProduct extends Favorite {
       height: 200px;
       overflow: hidden;
       background-color: #f8f9fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .product-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .product-icon {
+      font-size: 64px;
+      opacity: 0.7;
     }
 
     .product-info {
@@ -311,14 +310,6 @@ export class FavoriteListComponent implements OnInit {
       // Remover de la lista si ya no es favorito
       this.favorites = this.favorites.filter(f => f.id !== favorite.id);
     }
-  }
-
-  getProductImage(product?: Product): string {
-    return '/assets/images/product-placeholder.jpg';
-  }
-
-  onImageError(event: any): void {
-    event.target.src = '/assets/images/product-placeholder.jpg';
   }
 
   formatPrice(price: number): string {
