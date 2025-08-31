@@ -86,10 +86,6 @@ import { Observable } from 'rxjs';
           </div>
 
           <ng-template #loginButton>
-            <!-- Botón de debug temporal -->
-            <button class="debug-login-btn" (click)="debugLogin()" title="Debug Login">
-              🔧 Debug Login
-            </button>
             <a routerLink="/auth" class="profile-button" title="Iniciar Sesión / Registro">
               <div class="profile-avatar">
                 <svg class="profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -558,9 +554,5 @@ export class NavbarComponent implements OnInit {
   logout(): void {
     this.showDropdown = false;
     this.authService.logout().subscribe();
-  }
-
-  debugLogin(): void {
-    this.authService.debugLogin();
   }
 }

@@ -222,9 +222,7 @@ export class AuthService {
 
   // Métodos de utilidad
   getToken(): string | null {
-    const token = localStorage.getItem(this.TOKEN_KEY);
-    console.log('AuthService.getToken():', token ? 'Token exists' : 'No token');
-    return token;
+    return localStorage.getItem(this.TOKEN_KEY);
   }
 
   getRefreshToken(): string | null {
@@ -239,57 +237,8 @@ export class AuthService {
     const token = this.getToken();
     const authenticated = this.isAuthenticatedSubject.value;
     const hasValidToken = token && !this.isTokenExpired();
-
-    console.log('AuthService.isAuthenticated():', {
-      authenticated,
-      hasToken: !!token,
-      tokenExpired: token ? this.isTokenExpired() : 'no token',
-      finalResult: authenticated && hasValidToken
-    });
-
+    
     return authenticated && !!hasValidToken;
-  }
-
-  // Método de debug para probar rápidamente
-  debugLogin(): void {
-    console.log('DEBUG: Starting debug login...');
-
-    // Simular token y usuario guardados
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZmY2OWFjNy1mNGU4LTQ0MTktOGMwMS0zZGI2MDg2NDZhYzkiLCJlbWFpbCI6ImFkbWluQHRlc3QuY29tIiwiaWF0IjoxNzU1NzQyMDUyLCJleHAiOjE3NTU4Mjg0NTJ9.86xTXtIaoH7daUGMQ-5TTDV6M8Eu_CdA9DTN7HnjN4o";
-    const refreshToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2ZmY2OWFjNy1mNGU4LTQ0MTktOGMwMS0zZGI2MDg2NDZhYzkiLCJpYXQiOjE3NTU3NDIwNTIsImV4cCI6MTc1NjM0Njg1Mn0.0CojNce_TOtRr-RrYWuh0v99WvzcRgXPycIXxJ";
-    const user = {
-      id: 1,
-      email: "admin@test.com",
-      firstName: "Admin",
-      lastName: "User",
-      createdAt: "2025-08-19T21:12:15.276Z",
-      updatedAt: "2025-08-19T21:12:15.276Z"
-    };
-
-    console.log('DEBUG: Clearing any existing auth state...');
-    this.clearStorage();
-
-    console.log('DEBUG: Setting new auth state...');
-    // Guardar en localStorage
-    this.setToken(token);
-    this.setRefreshToken(refreshToken);
-    this.saveUserToStorage(user);
-
-    // Actualizar estado
-    this.currentUserSubject.next(user);
-    this.isAuthenticatedSubject.next(true);
-    this.isLoadingSubject.next(false);
-
-    console.log('DEBUG: Auth state updated');
-    console.log('DEBUG: Token in localStorage:', !!localStorage.getItem(this.TOKEN_KEY));
-    console.log('DEBUG: User in subject:', this.currentUserSubject.value);
-    console.log('DEBUG: Is authenticated subject:', this.isAuthenticatedSubject.value);
-    console.log('DEBUG: Final isAuthenticated result:', this.isAuthenticated());
-
-    // Programar renovación del token
-    this.scheduleTokenRefresh(86400); // 24 horas
-
-    console.log('DEBUG: Login simulated successfully');
   }
 
   isTokenExpired(): boolean {

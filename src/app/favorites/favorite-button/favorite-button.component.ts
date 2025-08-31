@@ -114,33 +114,20 @@ export class FavoriteButtonComponent implements OnInit {
   }
 
   toggleFavorite(): void {
-    console.log('🔥 BUTTON CLICKED - toggleFavorite() method called');
-
     if (this.isLoading) {
-      console.log('⚠️ Already loading, returning...');
       return;
     }
 
-    console.log('=== TOGGLE FAVORITE DEBUG ===');
-    console.log('Product ID:', this.productId);
-    console.log('Auth Service present:', !!this.authService);
-    console.log('Is authenticated (method):', this.authService.isAuthenticated());
-    console.log('Current user:', this.authService.getCurrentUser());
-    console.log('Token exists:', !!this.authService.getToken());
-
     // Verificar si el usuario está autenticado
     if (!this.authService.isAuthenticated()) {
-      console.error('❌ User not authenticated - cannot toggle favorite');
       alert('Por favor, inicia sesión para agregar productos a favoritos');
       return;
     }
 
-    console.log('✅ User is authenticated, proceeding with toggle...');
     this.isLoading = true;
 
     this.favoriteService.toggleFavorite(this.productId).subscribe({
       next: (response) => {
-        console.log('✅ Toggle favorite response:', response);
         this.isFavorite = response.isFavorite;
         this.favoriteChanged.emit(this.isFavorite);
         this.isLoading = false;
