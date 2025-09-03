@@ -28,10 +28,6 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts().subscribe(data => this.products = data);
   }
 
-  goToCreateProduct(): void {
-    this.router.navigate(['/products/create']);
-  }
-
   addToCart(product: Product): void {
     this.cartService.addToCart(product);
     // Mostrar una notificación temporal

@@ -9,16 +9,6 @@ export interface Product {
   price: number;
 }
 
-export interface CreateProductRequest {
-  name: string;
-  price: number;
-}
-
-export interface UpdateProductRequest {
-  name?: string;
-  price?: number;
-}
-
 @Injectable({ providedIn: 'root' })
 export class ProductService {
   private readonly API_URL = 'http://localhost:3000/product';
@@ -57,48 +47,6 @@ export class ProductService {
    */
   getProductById(id: number): Observable<Product> {
     return this.http.get<Product>(`${this.API_URL}/${id}`);
-  }
-
-  /**
-   * Crear un nuevo producto
-   */
-  createProduct(productData: CreateProductRequest): Observable<Product> {
-    return this.http.post<Product>(this.API_URL, productData)
-      .pipe(
-        tap(newProduct => {
-          console.log('Product created:', newProduct);
-          // Recargar productos después de crear
-          this.loadProducts().subscribe();
-        })
-      );
-  }
-
-  /**
-   * Actualizar un producto
-   */
-  updateProduct(id: number, productData: UpdateProductRequest): Observable<Product> {
-    return this.http.put<Product>(`${this.API_URL}/${id}`, productData)
-      .pipe(
-        tap(updatedProduct => {
-          console.log('Product updated:', updatedProduct);
-          // Recargar productos después de actualizar
-          this.loadProducts().subscribe();
-        })
-      );
-  }
-
-  /**
-   * Eliminar un producto
-   */
-  deleteProduct(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.API_URL}/${id}`)
-      .pipe(
-        tap(() => {
-          console.log('Product deleted:', id);
-          // Recargar productos después de eliminar
-          this.loadProducts().subscribe();
-        })
-      );
   }
 
   /**
